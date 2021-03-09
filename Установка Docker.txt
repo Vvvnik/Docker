@@ -1,0 +1,9 @@
+https://www.youtube.com/watch?v=Sa7uOGczoHc&t=382s
+
+sudo snap install docker
+sudo docker ps
+docker ps
+логин после перезагрузки
+vvv@WS-7104:~$ docker pull ubuntu
+
+
