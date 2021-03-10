@@ -2,8 +2,138 @@ https://www.youtube.com/watch?v=Sa7uOGczoHc&t=382s
 
 sudo snap install docker
 sudo docker ps
+sudo groupadd docker
+sudo usermode -aG docker $USER
 docker ps
 логин после перезагрузки
 vvv@WS-7104:~$ docker pull ubuntu
+
+vvv@WS-7104:~$ docker pull ubuntu
+Using default tag: latest
+latlatest: Pulling from library/ubuntu
+5d3b2c2d21bb: Pull complete 
+3fc2062ea667: Pull complete 
+75adf526d75b: Pull complete 
+Digest: sha256:b4f9e18267eb98998f6130342baacaeb9553f136142d40959a1b46d6401f0f2b
+Status: Downloaded newer image for ubuntu:latest
+docker.io/library/ubuntu:latest
+vvv@WS-7104:~$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu              latest              4dd97cefde62        5 days ago          72.9MB
+
+vvv@WS-7104:~$ docker run -it ubuntu
+root@476770f12b79:/# ls
+bin  boot  dev  etc  home  lib  lib32  lib64  libx32  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@476770f12b79:/# cd home
+root@476770f12b79:/home# ls
+root@476770f12b79:/home# 
+root@476770f12b79:/home# exit
+exit
+vvv@WS-7104:~$ 
+
+vvv@WS-7104:~$ docker run -it ubuntu ls
+bin   dev  home  lib32	libx32	mnt  proc  run	 srv  tmp  var
+boot  etc  lib	 lib64	media	opt  root  sbin  sys  usr
+vvv@WS-7104:~$ 
+
+vvv@WS-7104:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+vvv@WS-7104:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS                          PORTS               NAMES
+cd92bf95eae8        ubuntu              "ls"                About a minute ago   Exited (0) About a minute ago                       keen_dewdney
+4741e9da64f5        ubuntu              "vim"               About a minute ago   Created                                             frosty_thompson
+3d9c4ac07563        ubuntu              "ping ya.ru"        About a minute ago   Created                                             crazy_hofstadter
+66e776fa2ffd        ubuntu              "ps -a"             2 minutes ago        Exited (1) 2 minutes ago                            quirky_lovelace
+476770f12b79        ubuntu              "/bin/bash"         5 minutes ago        Exited (0) 3 minutes ago                            angry_bassi
+vvv@WS-7104:~$ docker rm ^C
+vvv@WS-7104:~$ docker rm angry_bassi
+angry_bassi
+vvv@WS-7104:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                     PORTS               NAMES
+cd92bf95eae8        ubuntu              "ls"                3 minutes ago       Exited (0) 3 minutes ago                       keen_dewdney
+4741e9da64f5        ubuntu              "vim"               3 minutes ago       Created                                        frosty_thompson
+3d9c4ac07563        ubuntu              "ping ya.ru"        3 minutes ago       Created                                        crazy_hofstadter
+66e776fa2ffd        ubuntu              "ps -a"             4 minutes ago       Exited (1) 4 minutes ago                       quirky_lovelace
+vvv@WS-7104:~$ docker rm $(docker ps -a)
+unknown shorthand flag: 'a' in -a"
+See 'docker rm --help'.
+vvv@WS-7104:~$ docker rm $(docker ps -aq)
+cd92bf95eae8
+4741e9da64f5
+3d9c4ac07563
+66e776fa2ffd
+vvv@WS-7104:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+vvv@WS-7104:~$ 
+
+vvv@WS-7104:~$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu              latest              4dd97cefde62        5 days ago          72.9MB
+vvv@WS-7104:~$ docker rmi 4dd97cefde62
+Untagged: ubuntu:latest
+Untagged: ubuntu@sha256:b4f9e18267eb98998f6130342baacaeb9553f136142d40959a1b46d6401f0f2b
+Deleted: sha256:4dd97cefde62cf2d6bcfd8f2c0300a24fbcddbe0ebcd577cc8b420c29106869a
+Deleted: sha256:95bc1f83306cc7ebaa959492929d6624b0cc1bb6ba61be1cd04fed7d39b002fc
+Deleted: sha256:a0fcf305193749a4fe8c9da074c4781a0f1e63f2c5b5a979a88597ada5c74645
+Deleted: sha256:aeb3f02e937406fb402a926ce5cebc7da79b14dbcb4f85a5ce0e3855623cec80
+vvv@WS-7104:~$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+vvv@WS-7104:~$ 
+
+vvv@WS-7104:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES
+2771aff9b7a3        alpine              "sh"                2 minutes ago       Exited (0) 24 seconds ago                       vibrant_mclaren
+vvv@WS-7104:~$ docker start vibrant_mclaren
+vibrant_mclaren
+vvv@WS-7104:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+2771aff9b7a3        alpine              "sh"                3 minutes ago       Up 30 seconds                           vibrant_mclaren
+vvv@WS-7104:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+2771aff9b7a3        alpine              "sh"                3 minutes ago       Up 41 seconds                           vibrant_mclaren
+vvv@WS-7104:~$ docker stop vibrant_mclaren
+vibrant_mclaren
+vvv@WS-7104:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+vvv@WS-7104:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                       PORTS               NAMES
+2771aff9b7a3        alpine              "sh"                4 minutes ago       Exited (137) 8 seconds ago                       vibrant_mclaren
+vvv@WS-7104:~$ 
+
+vvv@WS-7104:~$ docker run -d --name pg postgres 
+# параметр -d что бы докер работал в фоне
+Unable to find image 'postgres:latest' locally
+latest: Pulling from library/postgres
+45b42c59be33: Pull complete 
+40adec129f1a: Pull complete 
+b4c431d00c78: Pull complete 
+2696974e2815: Pull complete 
+564b77596399: Pull complete 
+5044045cf6f2: Pull complete 
+d736e67e6ac3: Pull complete 
+390c1c9a5ae4: Pull complete 
+c0e62f172284: Pull complete 
+ebcdc659c5bf: Pull complete 
+29be22cb3acc: Pull complete 
+f63c47038e66: Pull complete 
+77a0c198cde5: Pull complete 
+c8752d5b785c: Pull complete 
+Digest: sha256:5cfcfb0516ddd317109e2746a462b1dc398d152936640a2b69284629f48dc288
+Status: Downloaded newer image for postgres:latest
+85f0815efa0c6fcd08d795b03f5c1c419787133e9b4901041e889537f46442ff
+vvv@WS-7104:~$ 
+
+vvv@WS-7104:~$ sudo apt install ctop
+
+docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+vvv@WS-7104:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS               NAMES
+ec00ce0d9ce3        postgres            "docker-entrypoint.s…"   3 minutes ago       Up 3 minutes                5432/tcp            some-postgres
+cc84672b189f        postgres            "docker-entrypoint.s…"   10 minutes ago      Exited (1) 10 minutes ago                       db
+
+# решено не падает postgres
+
+
+
 
 
