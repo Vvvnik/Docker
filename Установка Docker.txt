@@ -1,11 +1,16 @@
-https://www.youtube.com/watch?v=Sa7uOGczoHc&t=382s
 
 sudo snap install docker
 sudo docker ps
 sudo groupadd docker
 sudo usermode -aG docker $USER
 docker ps
-логин после перезагрузки
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.40/containers/json: dial unix /var/run/docker.sock: connect: permission denied
+
+логин после перезагрузки компьютера все работает заново ввели логин
+docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+adc0414563ce        postgres            "docker-entrypoint.s…"   50 minutes ago      Up 22 minutes       5432/tcp            pg
+
 vvv@WS-7104:~$ docker pull ubuntu
 
 vvv@WS-7104:~$ docker pull ubuntu
@@ -123,7 +128,7 @@ Status: Downloaded newer image for postgres:latest
 85f0815efa0c6fcd08d795b03f5c1c419787133e9b4901041e889537f46442ff
 vvv@WS-7104:~$ 
 
-vvv@WS-7104:~$ sudo apt install ctop
+vvv@WS-7104:~$ sudo apt install ctop  # ctop просмотр состояния
 
 docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
 vvv@WS-7104:~$ docker ps -a
@@ -133,7 +138,7 @@ cc84672b189f        postgres            "docker-entrypoint.s…"   10 minutes ag
 
 # решено не падает postgres
 
-
+sudo -u postgres psql -h localhost
 
 
 
